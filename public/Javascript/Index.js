@@ -18,7 +18,7 @@ let fechaBase
 let eventos = []
 let container = document.getElementById("category")
 let arrayFiltro = []
-var formulario = document.getElementById("form")
+var formulario = document.getElementById("contactt")
 var estadisticas = document.getElementById("statss")
 var cardContainer = document.getElementById("card-container")
 var searchContainer = document.getElementById("search-container")
@@ -27,13 +27,13 @@ let checkedCheckboxes = []//Se crea un array vacio que guarda los datos de los c
 let search = ""
 var buttonNavTitle = []
 
-async function getData(){
+async function getData() {
     let datosApi
     await fetch("https://amd-amazingevents-api.onrender.com/api/eventos")
-    .then(response => response.json())
-    .then(json => datosApi = json)
+        .then(response => response.json())
+        .then(json => datosApi = json)
 
-    eventos =  datosApi.eventos
+    eventos = datosApi.eventos
     fechaBase = datosApi.fechaActual
 
     rutasPaginas()
@@ -51,7 +51,7 @@ for (var i = 0; i < buttonNav.length; i++) { //Recorre la clase NavLink y cuando
     })
 }
 
-function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, continua hasta el default
+function imprimir(id) { //Compara la expresión y si la consigue rompe, sino, continua hasta el default
 
     switch (id) {
 
@@ -69,7 +69,7 @@ function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, con
             // eventsCategories(upcomingEvents)
             display(upcomingEvents);
             break;
-            
+
         case "pastEvents":
             let pastEvents = eventos.filter(evento => evento.date < fechaBase)
             document.getElementById("title").innerHTML = "Eventos Pasados"
@@ -91,50 +91,54 @@ function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, con
             estadisticas.style.display = "none"
             formulario.style.display = "flex"
             formulario.innerHTML =
-            `
+                `
                   <form>
                       <div>
-                        <label for="name">Nombre y Apellido</label>
-                        <input type="text" id="name" placeholder="Ingrese Nombre y Apellido">
+                        <label for="name" id="name">Nombre y Apellido</label>
+                        <input type="text" id="name" placeholder="Ingrese Nombre y Apellido" required>
                       </div>
                       <div>
                         <label for="email">E-Mail</label>
-                        <input type="email" id="email" placeholder="Ingrese E-Mail">
+                        <input type="email" id="email" placeholder="Ingrese E-Mail" required>
                       </div>
                       <div>
                         <label for="text">Mensaje</label>
                         <textarea name="message" id="text" placeholder="Ingrese Mensaje"></textarea>
                       </div>
                       <div class="buttonSend">
-                        <button type="submit" value="submit" id="enviar">Enviar</button>
+                        <button type="submit" value="submit" class="btn" id="enviar">Enviar</button>
                       </div>
                   </form>
-                  <div id="modal" class="modal">
-                    <div class="modal-content">
-                    <button type="submit" value="submit" id="enviar" class="closeModal">X</button>
-                      <p>¡Gracias por comunicarte con nosotros!</p>
+                  <div id="modal-container" class="modal-container">
+                    <div class="modal">
+                        <div>
+                            <p>¡Hola!</p>
+                            <i class="fa-solid fa-x"></i>
+                        </div>
+                            <h2>Gracias por comunicarte con nosotros</h2>
                     </div>
                   </div>
               </section>
             `
-            let form = document.querySelector("form")
-            const modal = document.getElementById("modal")
-            const cerrar = document.querySelector('.closeModal')
-            form.addEventListener("submit", (event)=>{actionForm(event)
-            modal.style.display = "flex"
+            let form = document.querySelector(".contact")
+            const modal = document.querySelector(".modal-container")
+            const cerrar = document.querySelector('.fa-x')
+            form.addEventListener("submit", (event) => {
+                actionForm(event)
+                modal.style.display = "flex"
             })
-      
-            function modalForm(){
-              modal.style.display = "none";
-              location.reload()
+
+            function modalForm() {
+                modal.style.display = "none";
+                location.reload()
             }
 
             cerrar.addEventListener("click", modalForm);
-      
-            window.addEventListener("click", (event)=>{
-              if(event.target == modal){
-              modal.style.display = "none"
-              }
+
+            window.addEventListener("click", (event) => {
+                if (event.target == modal) {
+                    modal.style.display = "none"
+                }
             })
             break;
         case "stats":
@@ -147,7 +151,7 @@ function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, con
                 `
                 <table class="table">
                         <tr>
-                            <th colspan="3" class="title">Estadisticas de Eventos</th>
+                            <th colspan="3" class="title">Estadísticas de Eventos</th>
                         </tr>
                         <tr>
                             <th class="subtitle">Evento con Mayor Porcentaje de Asistencia</th>
@@ -159,7 +163,7 @@ function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, con
                         </table>
                         <table class="table" id="estadisticasDeEventosFuturosPorCategoría">
                         <tr>
-                            <th colspan="3" class="title">Estadisticas de Eventos Futuros por Categoría</th>
+                            <th colspan="3" class="title">Estadísticas de Eventos Futuros por Categoría</th>
                         </tr>
                         <tr>
                             <th class="subtitle">Categorías</th>
@@ -169,7 +173,7 @@ function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, con
                         </table>
                         <table class="table" id="estadisticasDeEventosPasadosPorCategoría">
                         <tr>
-                            <th colspan="3" class="title">Estadisticas de Eventos Pasados por Categoría</th>
+                            <th colspan="3" class="title">Estadísticas de Eventos Pasados por Categoría</th>
                         </tr>
                         <tr>
                             <th scope="col" class="subtitle">Categorías</th>
@@ -178,7 +182,7 @@ function imprimir(id){ //Compara la expresión y si la consigue rompe, sino, con
                         </tr>
                 </table>
                 `
-          initStats()
+            initStats()
             break;
         default:
             document.getElementById("title").innerHTML = "Inicio"
@@ -208,9 +212,9 @@ function display(array) {
                 <p>${array[i].description} </p>
             </div>
             <div class="text-info">
-                <p>Price: $${array[i].price} </p>
+                <p><i class="fa-solid fa-money-bill-wave"></i>Price: $${array[i].price} </p>
                 <button class="btn">
-                <a href="./Pages/Details.html?=id=${array[i].id}">See More...</a></button>
+                <a href="./Pages/Details.html?=id=${array[i].id}">Ver Detalles</a></button>
             </div>
         </div>
         `
@@ -222,22 +226,22 @@ function display(array) {
 
 var time = location.search.split("?time=") //Convierto a parametro la ubicación y luego la divido para obtener el ID
 
-function rutasPaginas()
-{
+function rutasPaginas() {
 
-switch (time[1]) { //Compara la expresión y si la consigue rompe, sino, continua hasta el default
+    switch (time[1]) { //Compara la expresión y si la consigue rompe, sino, continua hasta el default
 
-    
-    case "upcomingEvents": imprimir("upcomingEvents")
-        break;
-    case "pastEvents": imprimir("pastEvents")
-        break;
-    case "contact": imprimir("contact")
-        break;
-    case "stats": imprimir("stats")
-        break;
-    default: imprimir("home")
-}}
+
+        case "upcomingEvents": imprimir("upcomingEvents")
+            break;
+        case "pastEvents": imprimir("pastEvents")
+            break;
+        case "contact": imprimir("contact")
+            break;
+        case "stats": imprimir("stats")
+            break;
+        default: imprimir("home")
+    }
+}
 
 
 var buttonRight = document.getElementById("buttonRight")
@@ -267,7 +271,6 @@ function beforePage(i) {
             document.getElementById("title").innerHTML = buttonNavTitle[i]
             break;
         default: imprimir("home")
-        document.getElementById("title").innerHTML = buttonNavTitle[i]
             break;
     }
 }
@@ -299,14 +302,13 @@ function afterPage(i) {
             document.getElementById("title").innerHTML = buttonNavTitle[i]
             break;
         default: imprimir("stats")
-        document.getElementById("title").innerHTML = buttonNavTitle[i]
             break;
     }
 }
 
 
 
-inputSearch.addEventListener("keyup", function (evento){
+inputSearch.addEventListener("keyup", function (evento) {
     var dataInput = evento.target.value
     search = dataInput.trim().toLowerCase()
     filtrosCombinados()
@@ -326,51 +328,51 @@ inputSearch.addEventListener("keyup", function (evento){
 //     document.getElementById("category").innerHTML = categoriasEventos
 //     checkboxListener()
 //   }
-  
-  function checkboxListener() {
+
+function checkboxListener() {
     var checkboxs = document.querySelectorAll('input[type=checkbox]')
     for (i = 0; i < checkboxs.length; i++) {
-      checkboxs[i].addEventListener("change", function () {
-        checkedCheckboxes = []
-        for (i = 0; i < checkboxs.length; i++) {
-          if (checkboxs[i].checked) {
-            checkedCheckboxes.push(checkboxs[i].value)
-          }
-        }
-        filtrosCombinados()
-      })
+        checkboxs[i].addEventListener("change", function () {
+            checkedCheckboxes = []
+            for (i = 0; i < checkboxs.length; i++) {
+                if (checkboxs[i].checked) {
+                    checkedCheckboxes.push(checkboxs[i].value)
+                }
+            }
+            filtrosCombinados()
+        })
     }
-  }
-  
-  
-  function filtrosCombinados() {
+}
+
+
+function filtrosCombinados() {
     var filtrado = []
     if (search !== "" && checkedCheckboxes.length > 0) {
-      checkedCheckboxes.map(category => filtrado.push(...arrayFiltro.filter(evento =>
-        evento.name.toLowerCase().trim().includes(search) && evento.category === category)
-      ))
+        checkedCheckboxes.map(category => filtrado.push(...arrayFiltro.filter(evento =>
+            evento.name.toLowerCase().trim().includes(search) && evento.category === category)
+        ))
     }
     else if (search !== "" && checkedCheckboxes.length == 0) {
-      filtrado = arrayFiltro.filter(evento => evento.name.toLowerCase().trim().includes(search))
+        filtrado = arrayFiltro.filter(evento => evento.name.toLowerCase().trim().includes(search))
     }
     else if (search === "" && checkedCheckboxes.length > 0) {
-      checkedCheckboxes.map(category =>
-        filtrado.push(...arrayFiltro.filter(evento => evento.category === category))
-      )
+        checkedCheckboxes.map(category =>
+            filtrado.push(...arrayFiltro.filter(evento => evento.category === category))
+        )
     }
     else {
-      filtrado = arrayFiltro
+        filtrado = arrayFiltro
     }
     filtrado.length > 0 ?
-      display(filtrado) :
-      cardContainer.innerHTML = `
-      <div class="ceroResultado">
-      <h1 class="sinEventos" style="color : white">No se encontraron eventos para tu busqueda...</h1>
+        display(filtrado) :
+        cardContainer.innerHTML = `
+      <div>
+      <h1 class="noResults" style="color : white">No se encontraron EVENTOS para tu Búsqueda...</h1>
       </div>
       `
-  }
+}
 
-  function actionForm(event){
+function actionForm(event) {
     event.preventDefault()
     let formDatos = {
         name: event.target[0].value,
@@ -378,7 +380,7 @@ inputSearch.addEventListener("keyup", function (evento){
         message: event.target[2].value
     }
     console.log(formDatos);
-  }
+}
 
 //STAST//
 

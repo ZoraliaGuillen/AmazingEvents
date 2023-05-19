@@ -1,3 +1,16 @@
+var nav = document.querySelector("#nav");
+var open = document.querySelector("#open");
+var close = document.querySelector("#close");
+
+open.addEventListener("click", () => {
+    nav.classList.add("visibility");
+})
+
+close.addEventListener("click", () => {
+    nav.classList.remove("visibility");
+})
+
+
 async function getData(){
     let datosApi;
     await fetch("https://amd-amazingevents-api.onrender.com/api/eventos")
@@ -33,30 +46,48 @@ function imprimir(eventos) {
         <div class="column">
         <div class="row">
             <div>
-                <h3><i class="fa-solid fa-calendar-days"></i> Date</h3>
+                <div>
+                    <i class="fa-solid fa-calendar-days"></i> 
+                    <h3>Fecha</h3>
+                </div>
                 <p>${Detalles[0].date}</p>
             </div>
             <div>
-                <h3><i class="fa-solid fa-tag"></i> Category</h3>
+                <div>
+                    <i class="fa-solid fa-tag"></i>
+                    <h3>Categoría</h3>
+                </div>
                 <p>${Detalles[0].category}</p>
             </div>
             <div>
-                <h3><i class="fa-solid fa-location-dot"></i> Place</h3>
+                <div>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h3>Lugar</h3>
+                </div>
                 <p>${Detalles[0].place}</p>
             </div>
         </div>
         <div class="row">
             <div>
-                <h3><i class="fa-solid fa-users"></i> Capacity</h3>
+                <div>
+                    <i class="fa-solid fa-users"></i>
+                    <h3>Capacidad</h3>
+                </div>
                 <p>${Detalles[0].capacity}</p>
             </div>
             <div>
-                <h3><i class="fa-solid fa-user"></i>${asisOesti}</h3>
+                <div>
+                    <i class="fa-solid fa-user"></i>
+                    <h3>${asisOesti}</h3>
+                </div>
                 <p>${Detalles[0].assistance||Detalles[0].estimate}</p>
             </div>
             <div>
-                <h3><i class="fa-solid fa-money-bill-1-wave"></i> Price</h3>
-                <p>${Detalles[0].price}</p>
+                <div>
+                    <i class="fa-solid fa-money-bill-1-wave"></i>
+                    <h3>Precio</h3>
+                </div>
+                <p>$${Detalles[0].price}</p>
             </div>
         </div>
     </div>

@@ -114,7 +114,7 @@ estadisticasDeEventos.append(tdMayorAsistencia)
                 `
             <tr>
               <td>${evento.categoria}</td>
-              <td>${evento.estimacionIngresos}</td>
+              <td>$${evento.estimacionIngresos}</td>
               <td>${evento.porcentajeDeEstimacion}</td>
             </tr>       
         `
