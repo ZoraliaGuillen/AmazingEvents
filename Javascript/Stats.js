@@ -26,8 +26,6 @@ async function initStats(){
         estimacionAsistencia: datos.data.map(item => item.estimate ? item.estimate : 0),
         capacidad: datos.data.map(item => item.capacity ? item.capacity : 0)
     })
-    
-
 })
 
 ingresosYAsistencia.forEach(categoria =>{
@@ -52,6 +50,7 @@ ingresosYAsistencia.forEach(categoria =>{
             categoria.totalAsistenciaEstimada = totalAsistenciaEstimada
         }
     }
+
     categoria.porcentajeDeAsistencia = "%" + ((totalAsistencia * 100) / totalCapacidadPasados).toFixed(2)
     categoria.porcentajeDeEstimacion = "%" + ((totalAsistenciaEstimada * 100) / totalCapacidadFuturos).toFixed(2)
 
@@ -62,8 +61,6 @@ ingresosYAsistencia.forEach(categoria =>{
     let totalIngresoEstimado = 0
     categoria.estimacionIngreso.map(ingresosEstimados => totalIngresoEstimado += ingresosEstimados)
     categoria.estimacionIngresos = totalIngresoEstimado
-
-
 })
 
 let eventosPasados = []
@@ -121,11 +118,12 @@ estadisticasDeEventos.append(tdMayorAsistencia)
         }
     })
 
-     var tablaPasados = document.getElementById("estadisticasDeEventosPasadosPorCategoría")
+    var tablaPasados = document.getElementById("estadisticasDeEventosPasadosPorCategoría")
     let ordenarPasados = []
     ordenarPasados.push(...ingresosYAsistencia.sort((a, b) => {
         return b.ingresos - a.ingresos
     }))
+
     ordenarPasados.map(evento => {
         if (evento.ingresos > 0) {
             tablaPasados.innerHTML += `
@@ -135,9 +133,6 @@ estadisticasDeEventos.append(tdMayorAsistencia)
            <td>${evento.porcentajeDeAsistencia}</td>
         </tr>       
      `
-        }
-        
+        }  
     })
 }
-
-

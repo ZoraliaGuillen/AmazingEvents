@@ -24,12 +24,12 @@
             <nav>
                 <ul class="nav" id="nav">
                     <button class="close" id="close"><i class="fa-solid fa-xmark"></i></button>
-                    <li><a href="./index.html" class="navLink" id="home">Inicio</a></li>
-                    <li><a href="./index.html#upcomingEvents" class="navLink" id="upcomingEvents">Eventos Futuros</a>
+                    <li><a href="./index.html" class="navLink" id="home">Home</a></li>
+                    <li><a href="./index.html#upcomingEvents" class="navLink" id="upcomingEvents">Upcoming Events</a>
                     </li>
-                    <li><a href="./index.html#pastEvents" class="navLink" id="pastEvents">Eventos Pasados</a></li>
-                    <li><a href="./index.html#contact" class="navLink" id="contact">Contacto</a></li>
-                    <li><a href="./index.html#stats" class="navLink" id="stats">Estadísticas</a></li>
+                    <li><a href="./index.html#pastEvents" class="navLink" id="pastEvents">Past Events</a></li>
+                    <li><a href="./index.html#contact" class="navLink" id="contact">Contact</a></li>
+                    <li><a href="./index.html#stats" class="navLink" id="stats">Stats</a></li>
                 </ul>
                 <button><i class="fa-solid fa-bars" id="open"></i></button>
             </nav>
@@ -42,13 +42,13 @@
         <section>
             <div class="search-container" id="search-container">
                 <div class="category" id="category">
-                    <label><input type="checkbox" value="Carrera">Carrera</label>
-                    <label><input type="checkbox" value="Concierto de Música">Concierto de Música</label>
-                    <label><input type="checkbox" value="Feria de Comida">Feria de Comida</label>
-                    <label><input type="checkbox" value="Fiesta de Disfraces">Fiesta de Disfraces</label>
-                    <label><input type="checkbox" value="Intercambio de Libros">Intercambio de Libros</label>
-                    <label><input type="checkbox" value="Salida al museo">Salida al Museo</label>
-                    <label><input type="checkbox" value="Vamos al Cine">Vamos al Cine</label>
+                    <label for=""><input type="checkbox" value="Book Exchange"> Book Exchange</label>
+                    <label for=""><input type="checkbox" value="Cinema"> Cinema</label>
+                    <label for=""><input type="checkbox" value="Costume Party"> Costume Party</label>
+                    <label for=""><input type="checkbox" value="Food Fair"> Food Fair</label>
+                    <label for=""><input type="checkbox" value="Museum"> Museum</label>
+                    <label for=""><input type="checkbox" value="Music Concert"> Music Concert</label>
+                    <label for=""><input type="checkbox" value="Race"> Race</label>
                 </div>
                 <div class="search-bar">
                     <input type="text" placeholder=" Search Here..." id="inputSearch">
@@ -85,29 +85,6 @@
     <script src="./Javascript/AmazingEvents.js"></script>
     <script src="./Javascript/Index.js"></script>
     <script src="./Javascript/Stats.js"></script>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-          apiKey: "AIzaSyAfVFMUaprETbePrkNJawhmvu5uMrLSKGQ",
-          authDomain: "amazingeventszgf.firebaseapp.com",
-          projectId: "amazingeventszgf",
-          storageBucket: "amazingeventszgf.appspot.com",
-          messagingSenderId: "203019999220",
-          appId: "1:203019999220:web:fff851fe442f3b1471cba1",
-          measurementId: "G-LQJJE4DB12"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-      </script>
 </body>
 
 </html>

@@ -32,7 +32,7 @@
 
 header{
     position: fixed;
-    width: 100%;
+    width: 100vw;
     z-index: 1000;
 }
 
@@ -412,6 +412,10 @@ footer .rrss i{
 
 footer .rrss i:hover{
     background-color: var(--pink2);
+}
+
+.price{
+    font-size: 13.5px;
 }
 
 @media (max-width:991px){

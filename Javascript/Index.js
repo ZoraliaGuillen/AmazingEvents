@@ -12,39 +12,56 @@ close.addEventListener("click", () => {
     nav.classList.remove("visibility");
 })
 
-
-
-let fechaBase
-let eventos = []
-let container = document.getElementById("category")
+let fechaBase = datos.fechaBase
+let eventos = datos.eventos
+var upcomingEvents = []
+var pastEvents = []
+var buttonNav = document.getElementsByClassName("navLink")
+var buttonNavTitle = []
 let arrayFiltro = []
-var formulario = document.getElementById("contactt")
-var estadisticas = document.getElementById("statss")
-var cardContainer = document.getElementById("card-container")
+let checkedCheckboxes = []
+let search = ""
 var searchContainer = document.getElementById("search-container")
 var inputSearch = document.getElementById("inputSearch")
-let checkedCheckboxes = []//Se crea un array vacio que guarda los datos de los checkbox con la condicion TRUE
-let search = ""
-var buttonNavTitle = []
+let container = document.getElementById("category")
+var cardContainer = document.getElementById("card-container")
+var contact = document.getElementById("contactt")
+var stats = document.getElementById("statss")
 
-async function getData() {
-    let datosApi
-    await fetch("https://amd-amazingevents-api.onrender.com/api/eventos")
-        .then(response => response.json())
-        .then(json => datosApi = json)
+for (var i = 0; i < eventos.length; i++) {
 
-    eventos = datosApi.eventos
-    fechaBase = datosApi.fechaActual
-
-    rutasPaginas()
+    if (eventos[i].date > fechaBase) {
+        pastEvents.push(eventos[i]) 
+    }
+    else {
+        upcomingEvents.push(eventos[i])
+    }
 
 }
 
-getData()
+eventos.sort(function (a, b) {
+    return a.name.localeCompare(b.name);
+});
 
-var buttonNav = document.getElementsByClassName("navLink") //Crea un boton que toma la clase navLink
+// let fechaBase
+// let eventos = []
+
+// async function getData() {
+//     let datosApi
+//     await fetch("https://amd-amazingevents-api.onrender.com/api/eventos")
+//         .then(response => response.json())
+//         .then(json => datosApi = json)
+
+//     eventos = datosApi.eventos
+//     fechaBase = datosApi.fechaActual
+
+//     rutasPaginas()
+// }
+
+// getData()
+
 for (var i = 0; i < buttonNav.length; i++) { //Recorre la clase NavLink y cuando escucha el click, captura la clase
-    var element = buttonNav[i];
+    const element = buttonNav[i];
     buttonNavTitle.push(buttonNav[i].innerText)
     element.addEventListener("click", function (e) {
         imprimir(e.target.id)
@@ -52,35 +69,34 @@ for (var i = 0; i < buttonNav.length; i++) { //Recorre la clase NavLink y cuando
 }
 
 function imprimir(id) { //Compara la expresión y si la consigue rompe, sino, continua hasta el default
-
+console.log(id)
     switch (id) {
 
         case "upcomingEvents":
-            let upcomingEvents = eventos.filter(evento => evento.date > fechaBase)
-            document.getElementById("title").innerHTML = "Eventos Futuros"
+            // let upcomingEvents = eventos.filter(evento => evento.date > fechaBase)
+            document.getElementById("title").innerHTML = "Upcoming Events"
             arrayFiltro = upcomingEvents
-            cardContainer.style.display = "flex"
-            searchContainer.style.display = "flex"
-            formulario.style.display = "none"
-            estadisticas.style.display = "none"
-            inputSearch.value = ""
             checkedCheckboxes = []
             checkboxListener(upcomingEvents)
+            inputSearch.value = ""
+            searchContainer.style.display = "flex"
+            cardContainer.style.display = "flex"
+            contact.style.display = "none"
+            stats.style.display = "none"
             // eventsCategories(upcomingEvents)
             display(upcomingEvents);
             break;
-
         case "pastEvents":
-            let pastEvents = eventos.filter(evento => evento.date < fechaBase)
-            document.getElementById("title").innerHTML = "Eventos Pasados"
-            cardContainer.style.display = "flex"
-            searchContainer.style.display = "flex"
-            formulario.style.display = "none"
-            estadisticas.style.display = "none"
+            // let pastEvents = eventos.filter(evento => evento.date < fechaBase)
+            document.getElementById("title").innerHTML = "Past Events"
             arrayFiltro = pastEvents
-            inputSearch.value = ""
             checkedCheckboxes = []
             checkboxListener(pastEvents)
+            inputSearch.value = ""
+            searchContainer.style.display = "flex"
+            cardContainer.style.display = "flex"
+            contact.style.display = "none"
+            stats.style.display = "none"
             // eventsCategories(pastEvents)
             display(pastEvents);
             break;
@@ -88,9 +104,9 @@ function imprimir(id) { //Compara la expresión y si la consigue rompe, sino, co
             document.getElementById("title").innerHTML = "Contacto"
             searchContainer.style.display = "none"
             cardContainer.style.display = "none"
-            estadisticas.style.display = "none"
-            formulario.style.display = "flex"
-            formulario.innerHTML =
+            stats.style.display = "none"
+            contact.style.display = "flex"
+            contact.innerHTML =
                 `
                   <form>
                       <div>
@@ -145,54 +161,55 @@ function imprimir(id) { //Compara la expresión y si la consigue rompe, sino, co
             document.getElementById("title").innerHTML = "Estadísticas"
             searchContainer.style.display = "none"
             cardContainer.style.display = "none"
-            formulario.style.display = "none"
-            estadisticas.style.display = "flex"
-            estadisticas.innerHTML =
+            contact.style.display = "none"
+            stats.style.display = "flex"
+            stats.innerHTML =
                 `
                 <table class="table">
                         <tr>
-                            <th colspan="3" class="title">Estadísticas de Eventos</th>
+                            <th colspan="3" class="title">Event Statistics</th>
                         </tr>
                         <tr>
-                            <th class="subtitle">Evento con Mayor Porcentaje de Asistencia</th>
-                            <th class="subtitle">Evento con Menor Porcentaje de Asistencia</th>
-                            <th class="subtitle">Evento de Mayor Capacidad</th>
+                            <th class="subtitle">Event with the Highest Percentage of Attendance</th>
+                            <th class="subtitle">Event with the Lowest Attendance Percentage</th>
+                            <th class="subtitle">Largest Capacity Event</th>
                         </tr>
                         <tr id="estadisticasDeEventos">
                         </tr>
                         </table>
                         <table class="table" id="estadisticasDeEventosFuturosPorCategoría">
                         <tr>
-                            <th colspan="3" class="title">Estadísticas de Eventos Futuros por Categoría</th>
+                            <th colspan="3" class="title">Upcoming Events Statistics by Category</th>
                         </tr>
                         <tr>
-                            <th class="subtitle">Categorías</th>
-                            <th class="subtitle">Ingresos</th>
-                            <th class="subtitle">Porcentaje de Estimación</th>
+                            <th class="subtitle">Categories</th>
+                            <th class="subtitle">Revenue</th>
+                            <th class="subtitle">Estimate Percentage</th>
                         </tr>
                         </table>
                         <table class="table" id="estadisticasDeEventosPasadosPorCategoría">
                         <tr>
-                            <th colspan="3" class="title">Estadísticas de Eventos Pasados por Categoría</th>
+                            <th colspan="3" class="title">Past Event Statistics by Category</th>
                         </tr>
                         <tr>
-                            <th scope="col" class="subtitle">Categorías</th>
-                            <th scope="col" class="subtitle">Ingresos</th>
-                            <th scope="col" class="subtitle">Porcentaje de Asistencia</th>
+                            <th scope="col" class="subtitle">Categories</th>
+                            <th scope="col" class="subtitle">Revenue</th>
+                            <th scope="col" class="subtitle">Estimate Percentage</th>
                         </tr>
                 </table>
                 `
             initStats()
             break;
         default:
-            document.getElementById("title").innerHTML = "Inicio"
-            cardContainer.style.display = "flex"
-            searchContainer.style.display = "flex"
-            formulario.style.display = "none"
-            estadisticas.style.display = "none"
+            document.getElementById("title").innerHTML = "Home"
             arrayFiltro = eventos
             checkedCheckboxes = []
             checkboxListener(eventos);
+            inputSearch.value = ""
+            searchContainer.style.display = "flex"
+            cardContainer.style.display = "flex"
+            contact.style.display = "none"
+            stats.style.display = "none"
             // eventsCategories(eventos)
             display(eventos);
             break;
@@ -201,7 +218,7 @@ function imprimir(id) { //Compara la expresión y si la consigue rompe, sino, co
 
 function display(array) {
 
-    var html = ""; //Crea un templete que toma los datos a medida que se recorre el array 
+    var html = "";
 
     for (var i = 0; i < array.length; i++) {
         html += `
@@ -212,7 +229,7 @@ function display(array) {
                 <p>${array[i].description} </p>
             </div>
             <div class="text-info">
-                <p><i class="fa-solid fa-money-bill-wave"></i>Price: $${array[i].price} </p>
+                <p class="price"><i class="fa-solid fa-money-bill-wave"></i>Price: $${array[i].price} </p>
                 <button class="btn">
                 <a href="./Pages/Details.html?=id=${array[i].id}">Ver Detalles</a></button>
             </div>
@@ -224,11 +241,11 @@ function display(array) {
 
 // NAV DETAILS
 
-var time = location.search.split("?time=") //Convierto a parametro la ubicación y luego la divido para obtener el ID
+var time = location.search.split("?time=")
 
 function rutasPaginas() {
 
-    switch (time[1]) { //Compara la expresión y si la consigue rompe, sino, continua hasta el default
+    switch (time[1]) {
 
 
         case "upcomingEvents": imprimir("upcomingEvents")
@@ -243,6 +260,7 @@ function rutasPaginas() {
     }
 }
 
+rutasPaginas()
 
 var buttonRight = document.getElementById("buttonRight")
 buttonRight.addEventListener("click", function (e) {
@@ -306,8 +324,6 @@ function afterPage(i) {
     }
 }
 
-
-
 inputSearch.addEventListener("keyup", function (evento) {
     var dataInput = evento.target.value
     search = dataInput.trim().toLowerCase()
@@ -343,7 +359,6 @@ function checkboxListener() {
         })
     }
 }
-
 
 function filtrosCombinados() {
     var filtrado = []
@@ -381,6 +396,3 @@ function actionForm(event) {
     }
     console.log(formDatos);
 }
-
-//STAST//
-
